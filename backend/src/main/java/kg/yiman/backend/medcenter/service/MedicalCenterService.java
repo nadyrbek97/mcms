@@ -6,13 +6,12 @@ import kg.yiman.backend.medcenter.model.MedicalCenter;
 import kg.yiman.backend.medcenter.repository.MedicalCenterRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class MedicalCenterService {
 
-  private MedicalCenterRepository medicalCenterRepository;
+  private final MedicalCenterRepository medicalCenterRepository;
 
   public MedicalCenterService(MedicalCenterRepository medicalCenterRepository) {
     this.medicalCenterRepository = medicalCenterRepository;
@@ -21,10 +20,8 @@ public class MedicalCenterService {
   public List<MedicalCenterResponseDTO> getMedicalCenters() {
     List<MedicalCenter> medicalCenters = medicalCenterRepository.findAll();
 
-    List<MedicalCenterResponseDTO> medicalCenterResponseDTOs = medicalCenters.stream()
+    return medicalCenters.stream()
         .map(MedicalCenterMapper::toDTO)
         .toList();
-
-    return medicalCenterResponseDTOs;
   }
 }
