@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import kg.yiman.backend.department.model.Department;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +34,9 @@ public class MedicalCenter {
   @Size(max = 1000, message = "Instagram link cannot exceed 1000 characters")
   @Column
   private String instagramLink;
+
+  @OneToMany(mappedBy = "medicalCenter", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Department> departments;
 
   public UUID getId() {
     return id;
@@ -71,5 +76,13 @@ public class MedicalCenter {
 
   public void setInstagramLink(String instagramLink) {
     this.instagramLink = instagramLink;
+  }
+
+  public List<Department> getDepartments() {
+    return departments;
+  }
+
+  public void setDepartments(List<Department> departments) {
+    this.departments = departments;
   }
 }
