@@ -3,7 +3,9 @@ package kg.yiman.backend.department.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import kg.yiman.backend.medcenter.model.MedicalCenter;
+import kg.yiman.backend.service.model.ServiceModel;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,6 +29,9 @@ public class Department {
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "medical_center_id", nullable = false)
   private MedicalCenter medicalCenter;
+
+  @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<ServiceModel> services;
 
   public UUID getId() {
     return id;
