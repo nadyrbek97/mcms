@@ -33,7 +33,6 @@ onMounted(async () => {
   try {
     const res = await api.get("/department", {
       params: { medCenterId: "223e4567-e89b-12d3-a456-426614174000" },
-      headers: { "Cache-Control": "no-cache" },
     });
     departments.value = res.data;
   } finally {
