@@ -1,9 +1,13 @@
-<script setup></script>
+<script setup>
+import Navbar from "@/components/Navbar.vue";
+</script>
 
 <template>
   <div class="container mt-4">
-    <h1 class="mb-4">MCMS - Medical Center Management System</h1>
-    <router-view />
+    <div>
+      <Navbar />
+      <router-view />
+    </div>
   </div>
 </template>
 
