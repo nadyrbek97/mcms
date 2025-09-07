@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import kg.yiman.backend.medcenter.model.MedicalCenter;
 import kg.yiman.backend.service.model.ServiceModel;
+import kg.yiman.backend.user.model.Doctor;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,6 +33,9 @@ public class Department {
 
   @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<ServiceModel> services;
+
+  @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Doctor> doctors;
 
   public UUID getId() {
     return id;
