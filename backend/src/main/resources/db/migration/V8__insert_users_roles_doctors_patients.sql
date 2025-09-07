@@ -12,9 +12,9 @@ INSERT INTO roles (name) VALUES
 -- (passwords must be bcrypt hashes)
 -- ==============================
 INSERT INTO users (id, username, password) VALUES
-                                               ('11111111-1111-1111-1111-111111111111', 'superadmin', '{bcrypt}$2a$10$superadminHash'),
-                                               ('22222222-2222-2222-2222-222222222222', 'admin',      '{bcrypt}$2a$10$adminHash'),
-                                               ('33333333-3333-3333-3333-333333333333', 'dr.jane',    '{bcrypt}$2a$10$doctorHash')
+                                               ('11111111-1111-1111-1111-111111111111', 'superadmin', '$2a$12$c8RYMmVh6Q5YtzOvTL9yLutaddbNocQBvdk2b6FwKFFXK08buGUS6'), -- superadmin123
+                                               ('22222222-2222-2222-2222-222222222222', 'admin',      '$2a$12$FHHukABZW0HbDKzOPK8GcOjzuqKs.OoI.rBi5H8tbNrITXeZGBqy2'), -- admin123
+                                               ('33333333-3333-3333-3333-333333333333', 'dr.sultanov',    '$2a$12$t.ZjTNyXXFtFHtWJhY3oY.bqa7wj6JiKT8MTH1Hn2nEYlBmW4p0CG') --nadyr123
     ON CONFLICT DO NOTHING;
 
 -- ==============================
@@ -42,7 +42,7 @@ VALUES (
            'Doe',
            'Cardiologist',
            '323e4567-e89b-12d3-a456-426614174000', -- existing department UUID
-           '33333333-3333-3333-3333-333333333333'  -- dr.jane user
+           '33333333-3333-3333-3333-333333333333'  -- dr.sultanov user
        )
     ON CONFLICT DO NOTHING;
 
