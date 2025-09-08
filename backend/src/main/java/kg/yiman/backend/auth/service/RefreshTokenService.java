@@ -1,5 +1,6 @@
 package kg.yiman.backend.auth.service;
 
+import jakarta.transaction.Transactional;
 import kg.yiman.backend.auth.model.RefreshToken;
 import kg.yiman.backend.auth.repository.RefreshTokenRepository;
 import kg.yiman.backend.auth.util.JwtUtil;
@@ -52,5 +53,12 @@ public class RefreshTokenService {
 
   public boolean isTokenValid(RefreshToken token) {
     return token != null && !token.isRevoked() && token.getExpiry().isAfter(Instant.now());
+  }
+
+  @Transactional
+  public void cleanExpiredTokens() {
+      Instant now = Instant.now();
+      refreshTokenRepository.deleteByExpiryBeforeOrRevokedTrue(now);
+      System.out.println("✅ Expired refresh tokens removed at " + now);
   }
 }
