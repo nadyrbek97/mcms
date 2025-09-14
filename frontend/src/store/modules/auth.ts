@@ -13,6 +13,8 @@ const auth: Module<AuthState, any> = {
   }),
   mutations: {
     setTokens(state, { accessToken, refreshToken }) {
+      console.log("mutations accessToken: ", accessToken);
+      console.log("mutations refreshToken: ", refreshToken);
       state.accessToken = accessToken;
       state.refreshToken = refreshToken;
     },
@@ -28,6 +30,7 @@ const auth: Module<AuthState, any> = {
         throw new Error("Login failed");
       }
       const data = await response.json();
+      console.log("actions login data: ", data);
       commit("setTokens", {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,

@@ -1,10 +1,8 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <!-- Brand -->
       <router-link class="navbar-brand" to="/">MyApp</router-link>
 
-      <!-- Toggler/collapsing button for mobile -->
       <button
         class="navbar-toggler"
         type="button"
@@ -56,13 +54,33 @@
           </li>
         </ul>
 
-        <!-- Right side: optional login/signup -->
+        <!-- Right side -->
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
+          <li class="nav-item" v-if="!isAuthenticated">
             <router-link class="nav-link" to="/login">Login</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!isAuthenticated">
             <router-link class="nav-link" to="/signup">Sign Up</router-link>
+          </li>
+          <li class="nav-item dropdown" v-if="isAuthenticated">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="userDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Account
+            </a>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="userDropdown"
+            >
+              <li>
+                <a class="dropdown-item" href="#" @click="logout">Logout</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -70,10 +88,19 @@
   </nav>
 </template>
 
-<script setup>
-// No JS needed yet
-</script>
+<script setup lang="ts">
+import { computed } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-<style scoped>
-/* Optional: custom styles */
-</style>
+const store = useStore();
+const router = useRouter();
+
+const isAuthenticated = computed(() => store.getters.isAuthenticated);
+
+function logout() {
+  store.dispatch("logout");
+
+  router.push("/login");
+}
+</script>

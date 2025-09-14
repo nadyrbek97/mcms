@@ -59,7 +59,7 @@ export default defineComponent({
       loading.value = true;
       error.value = "";
       try {
-        await store.dispatch("auth/login", {
+        await store.dispatch("login", {
           username: username.value,
           password: password.value,
         });

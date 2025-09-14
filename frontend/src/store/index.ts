@@ -1,6 +1,5 @@
 import { createStore, Store } from "vuex";
 import axios from "../api/api";
-import auth from "@/store/modules/auth";
 
 export interface User {
   id: string;
@@ -15,9 +14,6 @@ export interface AuthState {
 }
 
 const store = createStore<AuthState>({
-  modules: {
-    auth,
-  },
   state: {
     accessToken: localStorage.getItem("accessToken"),
     refreshToken: localStorage.getItem("refreshToken"),
@@ -27,14 +23,18 @@ const store = createStore<AuthState>({
     SET_TOKENS(state, payload: { accessToken: string; refreshToken: string }) {
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
+
       localStorage.setItem("accessToken", payload.accessToken);
       localStorage.setItem("refreshToken", payload.refreshToken);
+
+      console.log("✅ Tokens saved:", payload);
     },
     CLEAR_TOKENS(state) {
       state.accessToken = null;
       state.refreshToken = null;
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      console.log("🚪 Tokens cleared");
     },
     SET_USER(state, user: User) {
       state.user = user;
@@ -50,22 +50,31 @@ const store = createStore<AuthState>({
     },
     async refreshToken({ commit, state }) {
       if (!state.refreshToken) throw new Error("No refresh token");
+
       const res = await axios.post("/auth/refresh", {
         refreshToken: state.refreshToken,
       });
+
       commit("SET_TOKENS", {
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
       });
     },
-    logout({ commit }) {
-      commit("CLEAR_TOKENS");
+    async logout({ commit, state }) {
+      console.log("actions.logout: ", state);
+      const res = await axios.post("/auth/logout", {
+        refreshToken: state.refreshToken,
+      });
+      if (res.status === 204) {
+        commit("CLEAR_TOKENS");
+      }
     },
   },
   getters: {
     isAuthenticated: (state) => !!state.accessToken,
     getAccessToken: (state) => state.accessToken,
     getRefreshToken: (state) => state.refreshToken,
+    getUser: (state) => state.user,
   },
 });
 
